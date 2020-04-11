@@ -90,6 +90,10 @@ router.post('/', async(req, res)=>{
         await Transport.sendMail(MailOptions);
           let result = await Transport.verify();
           if (!result) throw new Error(err);
+          res.status(200).json({
+              ok: true, 
+              data: "A reset link has been sent to " + user.email 
+          })
 
 })
 
