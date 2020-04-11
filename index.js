@@ -8,10 +8,12 @@ app.use(express.json())
 //imports
 const Register = require('./routes/register');
 const Login = require('./routes/login');
+const Forgot = require('./routes/forgot');
 
 //use imports
 app.use('/register', Register);
 app.use('/login', Login);
+app.use('/forgot', Forgot);
 
 
 //database connection

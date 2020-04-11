@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require('../models/user.model');
 
 router.post('/', async(req, res)=>{
-    const {username, email, password } = req.body;
+    let {username, email, password } = req.body;
 
     //checking the database for exsiting emails
     let user = await User.findOne({email: email});
@@ -24,12 +24,13 @@ router.post('/', async(req, res)=>{
             password: password
         })
 
+
         // encrypting the password
         let salt = await bcrypt.genSalt(10);
         let hash = await bcrypt.hash(newUser.password, salt);
         newUser.password = hash;
 
-        await newUser.save();
+       const users =  await newUser.save();
 
         // sending the data to the mobile app to be stored into async storage
         res.status(200).json({
