@@ -3,8 +3,9 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const User = require('../models/user.model');
 
+
 router.post('/', async(req, res)=>{
-    let {username, email, password } = req.body;
+    let {username, email, password, favTeam } = req.body;
 
     //checking the database for exsiting emails
     let user = await User.findOne({email: email});
@@ -17,12 +18,17 @@ router.post('/', async(req, res)=>{
             });           
         }
 
+       
+
         // creating a new account using the database fields
         let newUser = new User({
             username: username, 
             email: email, 
-            password: password
+            password: password, 
+            favTeam: favTeam
         })
+
+        console.log(newUser);
 
 
         // encrypting the password

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { favTeam } = require('./favTeam.model');
 
 const UserSchema = new Schema({
     username: {
@@ -13,6 +14,10 @@ const UserSchema = new Schema({
     password: {
         type: String, 
         required: true
+    }, 
+    favTeam: {
+        type: Schema.Types.ObjectId, 
+        ref: "favTeam"
     }
 })
 
