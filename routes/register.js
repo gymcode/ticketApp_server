@@ -1,11 +1,26 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-const User = require('../models/user.model');
+const { User } = require('../models/user.model');
 
+router.get('/', async(req, res)=>{
+   await User.find().
+   populate('favTeam').
+   exec((err, data)=>{
+    if (err) throw err
+    data.map((details)=>{
+      res.status(200).json({
+          ok: true, 
+          data: details, 
+          error: null
+      })
+    })
+   })
+    
+})
 
 router.post('/', async(req, res)=>{
-    let {username, email, password, favTeam } = req.body;
+    let {username, email, password } = req.body;
 
     //checking the database for exsiting emails
     let user = await User.findOne({email: email});
@@ -16,16 +31,13 @@ router.post('/', async(req, res)=>{
                 data: null, 
                 error: "Email already Exists"
             });           
-        }
-
-       
+        } 
 
         // creating a new account using the database fields
         let newUser = new User({
             username: username, 
             email: email, 
             password: password, 
-            favTeam: favTeam
         })
 
         console.log(newUser);
@@ -36,7 +48,7 @@ router.post('/', async(req, res)=>{
         let hash = await bcrypt.hash(newUser.password, salt);
         newUser.password = hash;
 
-       const users =  await newUser.save();
+       await newUser.save();
 
         // sending the data to the mobile app to be stored into async storage
         res.status(200).json({
@@ -45,5 +57,19 @@ router.post('/', async(req, res)=>{
             error:null
         })
 
+});
+
+
+router.patch('/:userId', async(req, res)=>{
+    try {
+        const updatedUser = await User.updateOne({ _id: req.params.userId}, { $set: {
+            favTeam : req.body.favTeam
+        }});
+        res.send(updatedUser);
+    } catch (error) {
+        res.send(error)
+    }
 })
+
+
 module.exports = router;

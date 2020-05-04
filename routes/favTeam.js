@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
-const {FavTeam, Coach, Player} = require('../models/favTeam.model');
+const {FavTeam, Coach, Player} = require('../models/user.model');
 const mongoose = require('mongoose');
 
 
@@ -16,8 +16,8 @@ router.get('/coach', async(req, res)=>{
     res.send(coaches);
 })
 
-router.get('/', (req, res)=>{
-   FavTeam.findOne({name: "Asante Kotoko"}).
+router.get('/', async(req, res)=>{
+   await FavTeam.findOne({name: "Asante Kotoko"}).
    populate("players").
    populate("coach").
    exec((err, favteam)=>{
@@ -26,5 +26,7 @@ router.get('/', (req, res)=>{
     res.send(favteam)
    });
 })
+
+
 
 module.exports = router;
