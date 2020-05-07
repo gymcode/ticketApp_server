@@ -37,8 +37,7 @@ const User = mongoose.model('users' , new Schema({
         type: Schema.Types.ObjectId, 
         ref: "favteams"
     }
-})
-)
+}, {timestamps:true}))
 
 const Coach = mongoose.model('coaches',
     new Schema({
