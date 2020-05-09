@@ -22,6 +22,12 @@ router.get('/', async(req, res)=>{
 router.post('/', async(req, res)=>{
     let {username, email, password } = req.body;
 
+     if(!username || !email ||!password){
+         return res.status(400).json({ error:'Please fill all fields'})
+     }
+     if(password.length < 6){
+         return res.status(400).json({ error:"Password should be more than 6 characters"})
+     }
     //checking the database for exsiting emails
     let user = await User.findOne({email: email});
         if (user) {
@@ -32,7 +38,7 @@ router.post('/', async(req, res)=>{
                 error: "Email already Exists"
             });           
         } 
-
+       
         // creating a new account using the database fields
         let newUser = new User({
             username: username, 

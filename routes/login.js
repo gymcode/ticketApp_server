@@ -5,9 +5,13 @@ const { User } = require('../models/user.model');
 
 
 router.post('/', async(req, res)=>{
+    let {email, password } = req.body
 
+    if(!email || !password){
+        return  res.status(400).json({ error:'Please fill all fields'})
+    }
     // checking the user exists
-    let user = await User.findOne({email: req.body.email});
+    let user = await User.findOne({email: email});
      if (!user) {
          return res.status(400).json({
              ok: false,
@@ -16,13 +20,13 @@ router.post('/', async(req, res)=>{
          });
      }
 
-     let isSame = await bcrypt.compare(req.body.password, user.password);
+     let isSame = await bcrypt.compare(password, user.password);
      if (!isSame) {
          //bad request
          return res.status(400).json({
              ok: false, 
              data: null, 
-             error: "Passwords do not match account"
+             error: "Password does not match account"
          });
          
      }
@@ -32,6 +36,7 @@ router.post('/', async(req, res)=>{
          data: user, 
          error: null
      });
+    
 
 });
 
