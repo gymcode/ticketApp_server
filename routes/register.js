@@ -21,6 +21,7 @@ router.get('/', async(req, res)=>{
 
 router.post('/', async(req, res)=>{
     let {username, email, password } = req.body;
+    let emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
      if(!username || !email ||!password){
          return res.status(400).json({ error:'Please fill all fields'})
@@ -28,6 +29,9 @@ router.post('/', async(req, res)=>{
      if(password.length < 6){
          return res.status(400).json({ error:"Password should be more than 6 characters"})
      }
+     if(!email.match(emailFormat)){
+        return res.status(400).json({ error:'Invalid email format'})
+    }
     //checking the database for exsiting emails
     let user = await User.findOne({email: email});
         if (user) {
