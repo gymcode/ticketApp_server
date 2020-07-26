@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 5000; 
+const PORT = process.env.PORT || 5000; 
 const User = require('./models/user.model')
 
 app.use(express.urlencoded({extended: false}))
@@ -20,8 +20,8 @@ app.use('/favteam', FavTeam);
 
 //database connection
 const mongoose = require('mongoose');
-const DBUrl = 'mongodb+srv://ticketAdmin:ticketAdmin@ticketapp-r6ncm.mongodb.net/test?retryWrites=true&w=majority'
-mongoose.connect(DBUrl, {useNewUrlParser: true, useUnifiedTopology: true}, err =>{
+const DBUrl = process.env.MONGODB_URI || 'mongodb+srv://ticketAdmin:ticketAdmin@ticketapp-r6ncm.mongodb.net/test?retryWrites=true&w=majority'
+mongoose.connect( DBUrl, {useNewUrlParser: true, useUnifiedTopology: true}, err =>{
     if (err) throw err
     console.log("database connection made successfully")
 })
