@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000; 
-const User = require('./models/user.model')
+// const User = require('./models/user.model')
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
