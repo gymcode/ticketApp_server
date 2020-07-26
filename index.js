@@ -28,6 +28,7 @@ mongoose.connect( DBUrl, {useNewUrlParser: true, useUnifiedTopology: true}, err 
 require('./models/user.model');
 
 app.listen(PORT, (err)=>{
+    
     if (err) throw err
     console.log("Server Connection made successsfully")
 })
