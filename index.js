@@ -20,7 +20,7 @@ app.use('/favteam', FavTeam);
 
 //database connection
 const mongoose = require('mongoose');
-const DBUrl = process.env.MONGODB_URI || 'mongodb+srv://ticketAdmin:ticketAdmin@ticketapp-r6ncm.mongodb.net/test?retryWrites=true&w=majority'
+const DBUrl = process.env.MONGODB_URI 
 mongoose.connect( DBUrl, {useNewUrlParser: true, useUnifiedTopology: true}, err =>{
     if (err) throw err
     console.log("database connection made successfully")
